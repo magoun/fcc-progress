@@ -24,7 +24,8 @@ let getHTML = async (url) => {
   
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(url);
+  // Wait for React components to load
+  await page.goto(url, { waitUntil: 'networkidle0'});
   
   // Need to click links to fully expand map
   // Outer level uses superblock class

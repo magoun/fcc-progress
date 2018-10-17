@@ -31,8 +31,31 @@ let getHTML = async (url) => {
 const url = 'https://learn.freecodecamp.org';
 getHTML(url).then( (html) => {
   const $ = require('cheerio').load(html);
-  $("li[class='map-challenge-title'] > a").each(function () {
-    // console.log($(this).text());
-    });
+  let jsonObj = {};
+  
+  // Assemble the data to convert to JSON
+  // Crawl the major sections in .superblock
+  $('.superblock').each(function (index, element) {
+    // Get the major section titles
+    let section = $(this).find('h4').text();
+    // Crawl the subsections in .block
+    $(this).find('.block')
+      .each(function (index, element) {
+        // Get the minor section titles
+        let subsection = $(this).find('h5').text();
+        console.log(subsection);
+        $(this).find('a')
+          .each(function (index, element) {
+            let exercise = $(this).text();
+            console.log('    ' + exercise);
+          });
+      });
+    // console.log(testArray);
+  });
+  // console.log(jsonArray);
+  
+  // $("li[class='map-challenge-title'] > a").each(function () {
+  //   console.log($(this).text());
+  // });
 });
 

@@ -1,7 +1,7 @@
-const puppeteer = require('puppeteer');
-
 // Fetch html using puppeteer
 let getHTML = async (url) => {
+  const puppeteer = require('puppeteer');
+  
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url);
@@ -27,6 +27,7 @@ let getHTML = async (url) => {
   return html;
 };
 
+// Create map of curriculum as JSON object
 let createMap = (html) => {
   const $ = require('cheerio').load(html);
   let jsonObj = {};
@@ -36,7 +37,6 @@ let createMap = (html) => {
   $('.superblock').each(function (index, element) {
     // Get the major section titles
     let section = $(this).find('h4').text();
-    console.log(section);
     
     let sectionObj = {};
     // Crawl the subsections in .block
@@ -44,7 +44,6 @@ let createMap = (html) => {
       .each(function (index, element) {
         // Get the minor section titles
         let subsection = $(this).find('h5').text();
-        console.log('  ' + subsection);
         
         let exercises = [];
         // Get the individual exercises for the subsection
@@ -54,7 +53,6 @@ let createMap = (html) => {
             if (index != 0) {
               let exercise = $(this).text();
               exercises.push(exercise);
-              console.log('    ' + exercise);
             }
           });
         
@@ -68,37 +66,30 @@ let createMap = (html) => {
     jsonObj[section] = sectionObj;
   });
   
-  // console.log(JSON.stringify(jsonObj));
-  return JSON.stringify(jsonObj);
+  return jsonObj;
 }
 
-const url = 'https://learn.freecodecamp.org';
-getHTML(url).then(createMap);
-// getHTML(url).then( (html) => {
-//   const $ = require('cheerio').load(html);
-//   let jsonArray = [];
+// Writes the JSON object to a file
+let writeJSON = (json) => {
+  const fs = require('fs');
+  const outputFile = 'lesson_map.json';
+  // Format the json for readability
+  const jsonString = JSON.stringify(json, null, 2);
   
-//   // Assemble the data to convert to JSON
-//   // Crawl the major sections in .superblock
-//   $('.superblock').each(function (index, element) {
-//     // Get the major section titles
-//     let section = $(this).find('h4').text();
-//     jsonArray[index] = 
-//     // Crawl the subsections in .block
-//     $(this).find('.block')
-//       .each(function (index, element) {
-//         // Get the minor section titles
-//         let subsection = $(this).find('h5').text();
-//         console.log('  ' + subsection);
-//         $(this).find('a')
-//           .each(function (index, element) {
-//             // First item is an 'Intro item', which we can ignore
-//             if (index != 0) {
-//               let exercise = $(this).text();
-//               console.log('    ' + exercise);
-//             }
-//           });
-//       });
-//   });
-// });
+  fs.writeFile(outputFile, jsonString, (err) => {
+      // Report success / failure
+      const successMessage = 'FCC curriculum was written to ' + outputFile;
+      err ? console.log(err) : console.log(successMessage);
+  }); 
+};
 
+// Runs the program
+let run = () => {
+  const url = 'https://learn.freecodecamp.org';
+  
+  getHTML(url)
+    .then(createMap)
+    .then(writeJSON);
+};
+
+run();

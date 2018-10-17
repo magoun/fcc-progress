@@ -16,7 +16,8 @@
  *    'section2': {...},
  *    ... 
  *  }
-*/
+ * 
+ */
 
 // Fetch html using puppeteer
 let getHTML = async (url) => {

@@ -1,6 +1,6 @@
 /**
  * Scrapes the lesson list from  https://learn.freecodecamp.org into
- * a JSON Object, then writes that object to lesson_map.json
+ * a JSON Object, then writes that object to fcc_curriculum.json
  * 
  * Usage: node lesson_map.js
  * 
@@ -94,7 +94,7 @@ let createMap = (html) => {
 // Writes the JSON object to a file
 let writeJSON = (json) => {
   const fs = require('fs');
-  const outputFile = 'lesson_map.json';
+  const outputFile = 'fcc_curriculum.json';
   // Format the json for readability
   const jsonString = JSON.stringify(json, null, 2);
   

@@ -2,6 +2,8 @@
  * Scrapes the lesson list from  https://learn.freecodecamp.org into
  * a JSON Object, then writes that object to lesson_map.json
  * 
+ * Usage: node lesson_map.js
+ * 
  *  { 'section1': {
  *      'subsection1': [
  *        'exercise1',

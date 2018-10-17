@@ -31,23 +31,27 @@ let getHTML = async (url) => {
 const url = 'https://learn.freecodecamp.org';
 getHTML(url).then( (html) => {
   const $ = require('cheerio').load(html);
-  let jsonObj = {};
+  let jsonArray = [];
   
   // Assemble the data to convert to JSON
   // Crawl the major sections in .superblock
   $('.superblock').each(function (index, element) {
     // Get the major section titles
     let section = $(this).find('h4').text();
+    jsonArray[index] = 
     // Crawl the subsections in .block
     $(this).find('.block')
       .each(function (index, element) {
         // Get the minor section titles
         let subsection = $(this).find('h5').text();
-        console.log(subsection);
+        console.log('  ' + subsection);
         $(this).find('a')
           .each(function (index, element) {
-            let exercise = $(this).text();
-            console.log('    ' + exercise);
+            // First item is an 'Intro item', which we can ignore
+            if (index != 0) {
+              let exercise = $(this).text();
+              console.log('    ' + exercise);
+            }
           });
       });
     // console.log(testArray);

@@ -1,17 +1,19 @@
 ## Overview
 
+_Note: To Edit_
 This script takes a newline-delimited list of FreeCodeCamp profile URLs and returns a report on their progress as a newline-delimited list of tab-delimited percentages. 
 
 ## Installation
-
-1. [Install Tampermonkey.](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-2. Navigate to the Utilities tab in Tampermonkey options.
-3. Paste the following address into the input marked "URL" and click "Import" <https://raw.githubusercontent.com/dacohenii/fcc-progress/master/bulk-fcc-progress.js> 
-4. Confirm the installation.
-
-![Installation](assets/install.gif)
+Requires Node v7.6 or higher (testing done with v10.1.0).
+Clone the repo and cd into it.
+Install the dependencies with `npm install`.
 
 ## Usage
+Create the curriculum map with `node lesson_map.js`.
+It will create lesson_map.json or overwrite the existing file.
+
+
+#### OLD README BELOW ####
 
 _Note: This script sends a request for all these URLs essentially at the same time, so and hasn't been tested for more than ~30 at a time. Too many more and their serers might not appreciate it._
 

@@ -6,6 +6,7 @@ let readURLs = () => {
   let file = 'fcc_profiles.txt';
   let profiles = fs.readFileSync(file, 'utf8');
   
+  // Splitting the return on new line yields an array
   console.log(profiles.split('\n'));
 };
 

@@ -1,7 +1,16 @@
+const fs = require('fs');
+const puppeteer = require('puppeteer');
+
+// Read list of profile urls
+let readURLs = () => {
+  let file = 'fcc_profiles.txt';
+  let profiles = fs.readFileSync(file, 'utf8');
+  
+  console.log(profiles.split('\n'));
+};
+
 // Fetch html using puppeteer
 let getHTML = async (url) => {
-  const puppeteer = require('puppeteer');
-  
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   
@@ -1564,7 +1573,6 @@ let getProgress = (completedChallenges) => {
 
 // Writes the JSON object to a file
 let writeJSON = (json) => {
-  const fs = require('fs');
   const outputFile = 'test.json';
   // Format the json for readability
   const jsonString = JSON.stringify(json, null, 2);
@@ -1578,12 +1586,14 @@ let writeJSON = (json) => {
 
 // Runs the program
 let run = () => {
-  const url = 'https://www.freecodecamp.org/magoun';
+  // const url = 'https://www.freecodecamp.org/magoun';
   
-  getHTML(url)
-    .then(parseHTML)
-    .then(getProgress)
-    .then(writeJSON);
+  // getHTML(url)
+  //   .then(parseHTML)
+  //   .then(getProgress)
+  //   .then(writeJSON);
+  
+  readURLs();
 };
 
 run();

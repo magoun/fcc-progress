@@ -1,16 +1,18 @@
 /**
  * Scrapes a user profile from https://www.freecodecamp.org/{username} and 
  * compares completed challenges against the FCC curriculum. The results are
- * output in JSON format to fcc_progress.json
+ * output in JSON format to outputFile.
  * 
- * The FCC curriculum is gathered using lesson_map.js.
+ * Track Greenville Codes progress with gvl_codes_path.json.
+ * Track overall FreeCodeCamp progress with fcc_path.json.
  * 
  * Usage: node fcc_progress.js
  * 
- * Set output file in writeJSON()
- * Set user to scrape in run()
- * 
  */
+
+const outputFile = 'fcc_progress.json',
+      url = 'https://www.freecodecamp.org/magoun',
+      trackFile = 'gvl_codes_path.json';
  
 const fs = require('fs');
 const puppeteer = require('puppeteer');
@@ -45,8 +47,7 @@ let parseHTML = (html) => {
 // Compare progress to overall curriculum
 // Returns a JSON object
 let getProgress = (completedChallenges) => {
-  // Hard coded, but can be pulled dynamically with lesson_map.js
-  const rawJSON = fs.readFileSync('gvl_codes_path.json');
+  const rawJSON = fs.readFileSync(trackFile);
   let challengeMap = JSON.parse(rawJSON);
   
   // Inconsistent capitalization, thus map to lower case
@@ -73,7 +74,6 @@ let getProgress = (completedChallenges) => {
 
 // Writes the JSON object to a file
 let writeJSON = (json) => {
-  const outputFile = 'fcc_progress.json';
   // Format the json for readability
   const jsonString = JSON.stringify(json, null, 2);
   
@@ -86,8 +86,6 @@ let writeJSON = (json) => {
 
 // Runs the program
 let run = () => {
-  const url = 'https://www.freecodecamp.org/magoun';
-  
   getHTML(url)
     .then(parseHTML)
     .then(getProgress)

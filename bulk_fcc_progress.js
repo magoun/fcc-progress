@@ -2,14 +2,16 @@
  * Scrapes multiple user profile from fcc_profiles.txt and 
  * compares completed challenges against the Greenville Codes curriculum. 
  * 
- * The Greenville Codes curriculum is found in gvl_codes_path.json.
- * 
- * The results are output to student_progress.csv.
+ * Track Greenville Codes progress with gvl_codes_path.json.
  * 
  * Usage: node bulk_fcc_progress.js
  * 
  */
- 
+
+const outputFile = 'student_progress.csv',
+      urlFile = 'fcc_profiles.txt',
+      trackFile = 'gvl_codes_path.json';
+
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
@@ -52,7 +54,7 @@ let parseHTML = (html) => {
 // Compare progress to overall curriculum
 // Returns a comma delimited string
 let getProgress = (completedChallenges) => {
-  const rawJSON = fs.readFileSync('gvl_codes_path.json');
+  const rawJSON = fs.readFileSync(trackFile);
   let challengeMap = JSON.parse(rawJSON);
   
   // Inconsistent capitalization, thus map to lower case
@@ -93,9 +95,6 @@ let writeProgress = (writeArray, file) => {
 
 // Runs the program
 let run = async () => {
-  const outputFile = 'student_progress.csv';
-  const urlFile = 'fcc_profiles.txt';
-  
   // Get urls from urlFile
   const urlArray = readURLs(urlFile);
   let writeArray = [];

@@ -48,7 +48,6 @@ let getProgress = (completedChallenges) => {
   // Hard coded, but can be pulled dynamically with lesson_map.js
   const rawJSON = fs.readFileSync('gvl_codes_path.json');
   let challengeMap = JSON.parse(rawJSON);
-  console.log(challengeMap);
   
   // Inconsistent capitalization, thus map to lower case
   completedChallenges = completedChallenges.map(x => x.toLowerCase());

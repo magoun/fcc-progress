@@ -100,9 +100,6 @@ let run = async () => {
   const urlArray = readURLs(urlFile);
   let writeArray = [];
   
-  // Clear output file
-  fs.writeFileSync(outputFile, '');
-  
   // Assemble student progress into array
   for (let url of urlArray) {
     let progress = await getHTML(url)

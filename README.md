@@ -20,6 +20,8 @@ Use `node get_fcc_progress.js` to get a detailed progress report for a single FC
 Use `node get_bulk_fcc_progress.js` to get a csv report of a full list of student profiles. By default, these are pulled from fcc_profiles.txt, but this can be modified in the file head.
 
 ## Troubleshooting
+Running `node get_bulk_fcc_progress.js` with an invalid url will return an error. This includes newline characters at the end of the file! I'll work on fixing this.
+
 I ran into a few problems getting this to work on another computer. My errors were related to dependencies for Chrome. I resolved them by following the advice [here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md).
 
 `npm install` loads the dependencies locally, so `ldd chrome | grep not` won't work in the base directory. You'll have to navigate all the way down to the node_modules directory for puppeteer, through the .local-chromium directory until you find the chrome binary, then run the command. This should give you the missing dependencies that need to be installed.

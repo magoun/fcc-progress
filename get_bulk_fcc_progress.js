@@ -10,7 +10,8 @@
 
 const outputFile = 'student_progress.csv',
       urlFile = 'fcc_profiles.txt',
-      trackFile = 'gvl_codes_path.json';
+      trackFile = 'gvl_codes_path.json',
+      debug = true;
 
 const fs = require('fs');
 const puppeteer = require('puppeteer');
@@ -19,6 +20,9 @@ const puppeteer = require('puppeteer');
 // Returns an array of profile URLs
 let readURLs = (file) => {
   let profiles = fs.readFileSync(file, 'utf8');
+  if (debug) {
+    console.log('Reading profile urls from ' + urlFile);
+  }
   
   // Splitting the return on new line yields an array
   return profiles.split('\n');
@@ -26,6 +30,10 @@ let readURLs = (file) => {
 
 // Fetch html using puppeteer
 let getHTML = async (url) => {
+  if (debug) {
+    console.log('Getting HTML from ' + url);
+  }
+  
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   
@@ -34,6 +42,7 @@ let getHTML = async (url) => {
   
   const html = await page.content();
   await browser.close();
+  
   return html;
 };
 

@@ -14,18 +14,34 @@ const outputFile = 'student_progress.csv',
 
 const fs = require('fs');
 const puppeteer = require('puppeteer');
+const URL = require('url');
+
+// Function for filtering bad inputs from urlFile
+let validateURL = (str) => {
+  const url = URL.parse(str);
+  
+  if (url.hostname) {
+    return true;
+  } else {
+    console.log('Skipping ' + str + ' (invalid URL)');
+    return false;
+  }
+};
 
 // Read list of profile urls
 // Returns an array of profile URLs
 let readURLs = (file) => {
   let profiles = fs.readFileSync(file, 'utf8');
+  console.log('Reading profile urls from ' + urlFile);
   
   // Splitting the return on new line yields an array
-  return profiles.split('\n');
+  return profiles.split('\n').filter(validateURL);
 };
 
 // Fetch html using puppeteer
 let getHTML = async (url) => {
+  console.log('Getting HTML from ' + url);
+  
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   
@@ -34,6 +50,7 @@ let getHTML = async (url) => {
   
   const html = await page.content();
   await browser.close();
+  
   return html;
 };
 
@@ -102,8 +119,8 @@ let run = async () => {
   // Assemble student progress into array
   for (let url of urlArray) {
     let progress = await getHTML(url)
-                           .then(parseHTML)
-                           .then(getProgress);
+                          .then(parseHTML)
+                          .then(getProgress);
                        
     writeArray[urlArray.indexOf(url)] = url + ',' + progress;
   }
